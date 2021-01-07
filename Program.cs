@@ -8,6 +8,7 @@ namespace basketball_teams
     {
         static void Main(string[] args)
         {
+            
             Client client = new ConsoleClient();
             
             client.Run();

@@ -1,3 +1,5 @@
+using System;
+
 namespace basketball_teams.domain
 {
     public class Id
@@ -7,6 +9,15 @@ namespace basketball_teams.domain
         public Id(int value)
         {
             Value = value;
+        }
+
+        public Id(bool randomise = false)
+        {
+            if (randomise)
+            {
+                Random random = new Random();
+                Value = random.Next(10, 100);
+            }
         }
     }
 }
