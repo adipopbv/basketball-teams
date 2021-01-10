@@ -1,4 +1,4 @@
-namespace basketball_teams.domain.Exceptions
+namespace basketball_teams.domain.exceptions
 {
     public class NotFoundException : AppException
     {
