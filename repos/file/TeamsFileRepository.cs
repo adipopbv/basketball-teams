@@ -2,9 +2,12 @@ using basketball_teams.domain;
 
 namespace basketball_teams.repos.file
 {
-    public class TeamsFileRepository: FileRepository<Team>
+    public class TeamsFileRepository : FileRepository<Team>
     {
-        public TeamsFileRepository(string fileName): base(fileName) { }
+        public TeamsFileRepository(string fileName) : base(fileName)
+        {
+            LoadData();
+        }
 
         protected override void LoadData()
         {

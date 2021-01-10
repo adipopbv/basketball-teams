@@ -1,6 +1,6 @@
 namespace basketball_teams.domain
 {
-    public class Team: Entity
+    public class Team : Entity
     {
         public string Name { get; set; }
         

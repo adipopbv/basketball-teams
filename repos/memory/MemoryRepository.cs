@@ -5,7 +5,7 @@ using basketball_teams.domain.exceptions;
 
 namespace basketball_teams.repos.memory
 {
-    public class MemoryRepository<TEntity>: IRepository<TEntity> where TEntity: Entity
+    public class MemoryRepository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {
         private Dictionary<Id, TEntity> _entities;
 
@@ -22,7 +22,13 @@ namespace basketball_teams.repos.memory
         
         public TEntity FindOne(Id id)
         {
-            return _entities[id];
+            foreach (var (key, value) in _entities)
+            {
+                if (key.Value == id.Value)
+                    return value;
+            }
+
+            return null;
         }
 
         public List<TEntity> FindAll()

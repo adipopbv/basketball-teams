@@ -2,7 +2,7 @@ using System;
 
 namespace basketball_teams.domain.exceptions
 {
-    public class AppException: Exception
+    public class AppException : Exception
     {
         private string _message = null;
 
