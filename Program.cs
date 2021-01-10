@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Reflection.Metadata.Ecma335;
 using basketball_teams.client;
 using basketball_teams.domain;
 using basketball_teams.repos;
 using basketball_teams.repos.file;
+using basketball_teams.services;
 
 namespace basketball_teams
 {
@@ -12,8 +12,9 @@ namespace basketball_teams
         static void Main(string[] args)
         {
             IRepository<Team> teamsRepository = new TeamsFileRepository("Teams.csv");
-            teamsRepository.FindAll().ForEach(team => Console.WriteLine(team.Name)); 
-            Client client = new ConsoleClient();
+            IRepository<Player> playersRepository = new PlayersFileRepository("Players.csv", teamsRepository);
+            Service service = new Service(teamsRepository, playersRepository);
+            Client client = new ConsoleClient(service);
             
             client.Run();
         }

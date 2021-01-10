@@ -1,6 +1,6 @@
 namespace basketball_teams.domain.exceptions
 {
-    public class DuplicateException: AppException
+    public class DuplicateException : AppException
     {
         public DuplicateException() : base("duplicate entity") { }
         
