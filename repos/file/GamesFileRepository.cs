@@ -3,11 +3,11 @@ using basketball_teams.domain;
 
 namespace basketball_teams.repos.file
 {
-    public class PlayersFileRepository : FileRepository<Player>
+    public class GamesFileRepository : FileRepository<Game>
     {
         private IRepository<Team> _teamsRepository;
 
-        public PlayersFileRepository(string fileName, IRepository<Team> teamsRepository) : base(fileName)
+        public GamesFileRepository(string fileName, IRepository<Team> teamsRepository) : base(fileName)
         {
             _teamsRepository = teamsRepository;
             LoadData();
@@ -22,8 +22,11 @@ namespace basketball_teams.repos.file
             {
                 string[] fields = line.Split(Separator);
 
-                Player player = new Player(new Id(int.Parse(fields[0])), fields[1], fields[2], _teamsRepository.FindOne(new Id(int.Parse(fields[3]))));
-                Add(player);
+                Game game = new Game(new Id(int.Parse(fields[0])),
+                    _teamsRepository.FindOne(new Id(int.Parse(fields[1]))),
+                    _teamsRepository.FindOne(new Id(int.Parse(fields[2]))),
+                    DateTime.Parse(fields[3]));
+                Add(game);
             }
         }
     }
