@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Channels;
 using basketball_teams.domain;
 using basketball_teams.domain.exceptions;
 using basketball_teams.services;
@@ -21,7 +22,8 @@ namespace basketball_teams.client
                     Console.WriteLine("\nBASKETBALL TEAMS");
                     Console.WriteLine("[0]: Exit" +
                                       "\n[1]: Get all players of team" +
-                                      "\n[2]: Get all active players of team from game");
+                                      "\n[2]: Get all active players of team from game" +
+                                      "\n[3]: Get all games from time period (dd/MM/yyyy)");
                     Console.WriteLine("\n> ");
                     string command = Console.ReadLine();
                     switch (command)
@@ -32,6 +34,8 @@ namespace basketball_teams.client
                         case "1": GetPlayersOfTeam();
                             break;
                         case "2": GetActivePlayersOfTeamFromGame();
+                            break;
+                        case "3": GetGamesFromTimePeriod();
                             break;
                         default: Console.WriteLine("\nCommand not found");
                             break;
@@ -64,6 +68,19 @@ namespace basketball_teams.client
             
             Console.Write("Active players of team " + activePlayers[0].Player.Team.Name + " taking part in the " + activePlayers[0].Game.Id.Value + " game: \n");
             activePlayers.ForEach(activePlayer => Console.WriteLine(activePlayer.Player.Id.Value + " | " + activePlayer.Player.Name + " | " + activePlayer.ScoredPoints + " | " + ActivePlayer.StatusToString(activePlayer.Status)));
+        }
+
+        private void GetGamesFromTimePeriod()
+        {
+            Console.Write("\nPeriod start: ");
+            string periodStart = Console.ReadLine();
+            Console.Write("\nPeriod end: ");
+            string periodEnd = Console.ReadLine();
+
+            List<Game> games = Service.GetGamesFromTimePeriod(periodStart, periodEnd);
+            
+            Console.Write("Games from the given time period: \n");
+            games.ForEach(game => Console.WriteLine(game.Id.Value + " | " + game.FirstTeam.Name + " VS " + game.SecondTeam.Name));
         }
     }
 }
