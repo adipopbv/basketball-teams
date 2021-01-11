@@ -13,7 +13,9 @@ namespace basketball_teams
         {
             IRepository<Team> teamsRepository = new TeamsFileRepository("Teams.csv");
             IRepository<Player> playersRepository = new PlayersFileRepository("Players.csv", teamsRepository);
-            Service service = new Service(teamsRepository, playersRepository);
+            IRepository<Game> gamesRepository = new GamesFileRepository("Games.csv", teamsRepository);
+            IRepository<ActivePlayer> activePlayersRepository = new ActivePlayersFileRepository("ActivePlayers.csv", playersRepository, gamesRepository);
+            Service service = new Service(teamsRepository, playersRepository, gamesRepository, activePlayersRepository);
             Client client = new ConsoleClient(service);
             
             client.Run();

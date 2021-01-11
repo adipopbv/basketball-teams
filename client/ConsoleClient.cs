@@ -20,7 +20,8 @@ namespace basketball_teams.client
                 {
                     Console.WriteLine("\nBASKETBALL TEAMS");
                     Console.WriteLine("[0]: Exit" +
-                                      "\n[1]: Get all players of team");
+                                      "\n[1]: Get all players of team" +
+                                      "\n[2]: Get all active players of team from game");
                     Console.WriteLine("\n> ");
                     string command = Console.ReadLine();
                     switch (command)
@@ -29,6 +30,8 @@ namespace basketball_teams.client
                             Console.WriteLine("Exiting app...");
                             return;
                         case "1": GetPlayersOfTeam();
+                            break;
+                        case "2": GetActivePlayersOfTeamFromGame();
                             break;
                         default: Console.WriteLine("\nCommand not found");
                             break;
@@ -48,7 +51,19 @@ namespace basketball_teams.client
             List<Player> players = Service.GetPlayersOfTeam(new Id(int.Parse(teamId!)));
             
             Console.Write("Players of team " + players[0].Team.Name + ": \n");
-            players.ForEach(player => Console.WriteLine(player.Id.Value + " | " + player.Name + " | " + player.Team.Name));
+            players.ForEach(player => Console.WriteLine(player.Id.Value + " | " + player.Name));
+        }
+
+        private void GetActivePlayersOfTeamFromGame()
+        {
+            Console.Write("\nTeam id: ");
+            string teamId = Console.ReadLine();
+            Console.Write("\nGame id: ");
+            string gameId = Console.ReadLine();
+            List<ActivePlayer> activePlayers = Service.GetActivePlayersOfTeamFromGame(new Id(int.Parse(teamId!)), new Id(int.Parse(gameId!)));
+            
+            Console.Write("Active players of team " + activePlayers[0].Player.Team.Name + " taking part in the " + activePlayers[0].Game.Id.Value + " game: \n");
+            activePlayers.ForEach(activePlayer => Console.WriteLine(activePlayer.Player.Id.Value + " | " + activePlayer.Player.Name + " | " + activePlayer.ScoredPoints + " | " + ActivePlayer.StatusToString(activePlayer.Status)));
         }
     }
 }
