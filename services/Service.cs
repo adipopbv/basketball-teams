@@ -37,5 +37,13 @@ namespace basketball_teams.services
             DateTime end = DateTime.Parse(periodEnd);
             return GamesRepository.FindAll().Where(game => game.Date > start && game.Date < end).ToList();
         }
+
+        public int GetScoreFromGame(Id gameId)
+        {
+            return ActivePlayersRepository.FindAll()
+                .Where(activePlayer => activePlayer.Game.Id.Value == gameId.Value)
+                .Select(activePlayer => activePlayer.ScoredPoints)
+                .Sum();
+        }
     }
 }

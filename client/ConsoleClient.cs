@@ -23,7 +23,8 @@ namespace basketball_teams.client
                     Console.WriteLine("[0]: Exit" +
                                       "\n[1]: Get all players of team" +
                                       "\n[2]: Get all active players of team from game" +
-                                      "\n[3]: Get all games from time period (dd/MM/yyyy)");
+                                      "\n[3]: Get all games from time period (dd/MM/yyyy)" +
+                                      "\n[4]: Get score from game");
                     Console.WriteLine("\n> ");
                     string command = Console.ReadLine();
                     switch (command)
@@ -36,6 +37,8 @@ namespace basketball_teams.client
                         case "2": GetActivePlayersOfTeamFromGame();
                             break;
                         case "3": GetGamesFromTimePeriod();
+                            break;
+                        case "4": GetScoreFromGame();
                             break;
                         default: Console.WriteLine("\nCommand not found");
                             break;
@@ -76,11 +79,19 @@ namespace basketball_teams.client
             string periodStart = Console.ReadLine();
             Console.Write("\nPeriod end: ");
             string periodEnd = Console.ReadLine();
-
             List<Game> games = Service.GetGamesFromTimePeriod(periodStart, periodEnd);
             
             Console.Write("Games from the given time period: \n");
             games.ForEach(game => Console.WriteLine(game.Id.Value + " | " + game.FirstTeam.Name + " VS " + game.SecondTeam.Name));
+        }
+
+        private void GetScoreFromGame()
+        {
+            Console.Write("\nGame id: ");
+            string gameId = Console.ReadLine();
+            int score = Service.GetScoreFromGame(new Id(int.Parse(gameId!)));
+            
+            Console.Write("Score from the " + gameId + " game: " + score);
         }
     }
 }
