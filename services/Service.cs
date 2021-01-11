@@ -30,5 +30,12 @@ namespace basketball_teams.services
         {
             return ActivePlayersRepository.FindAll().Where(activePlayer => activePlayer.Player.Team.Id.Value == teamId.Value && activePlayer.Game.Id.Value == gameId.Value).ToList();
         }
+
+        public List<Game> GetGamesFromTimePeriod(string periodStart, string periodEnd)
+        {
+            DateTime start = DateTime.Parse(periodStart);
+            DateTime end = DateTime.Parse(periodEnd);
+            return GamesRepository.FindAll().Where(game => game.Date > start && game.Date < end).ToList();
+        }
     }
 }
