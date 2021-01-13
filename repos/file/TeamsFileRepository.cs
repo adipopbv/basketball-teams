@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using basketball_teams.domain;
 
 namespace basketball_teams.repos.file
@@ -19,8 +20,20 @@ namespace basketball_teams.repos.file
                 string[] fields = line.Split(Separator);
                 
                 Team team = new Team(new Id(int.Parse(fields[0])), fields[1]);
-                Add(team);
+                base.Add(team);
             }
+        }
+
+        protected override void SaveData()
+        {
+            string path = DataFilesPath + FileName;
+            List<string> lines = new List<string>();
+
+            foreach (var team in FindAll())
+            {
+                lines.Add(team.Id.Value + "," + team.Name);
+            }
+            System.IO.File.WriteAllLines(@path, lines);
         }
     }
 }
