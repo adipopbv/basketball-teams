@@ -15,5 +15,28 @@ namespace basketball_teams.repos.file
         }
         
         protected abstract void LoadData();
+        
+        protected abstract void SaveData();
+        
+        public override TEntity Add(TEntity entity)
+        {
+            TEntity addedEntity = base.Add(entity);
+            SaveData();
+            return addedEntity;
+        }
+
+        public override TEntity Modify(Id id, TEntity newTEntity)
+        {
+            TEntity modifiedEntity = base.Modify(id, newTEntity);
+            SaveData();
+            return modifiedEntity;
+        }
+
+        public override TEntity Remove(Id id)
+        {
+            TEntity deletedEntity = base.Remove(id);
+            SaveData();
+            return deletedEntity;
+        }
     }
 }

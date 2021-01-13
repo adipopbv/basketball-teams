@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using basketball_teams.domain;
 
 namespace basketball_teams.repos.file
@@ -30,8 +31,22 @@ namespace basketball_teams.repos.file
                     _gamesRepository.FindOne(new Id(int.Parse(fields[2]))),
                     int.Parse(fields[3]),
                     ActivePlayer.StringToStatus(fields[4]));
-                Add(activePlayer);
+                base.Add(activePlayer);
             }
+        }
+        
+        protected override void SaveData()
+        {
+            string path = DataFilesPath + FileName;
+            List<string> lines = new List<string>();
+
+            foreach (var activePlayer in FindAll())
+            {
+                lines.Add(activePlayer.Id.Value + "," + activePlayer.Player.Id.Value + "," +
+                          activePlayer.Game.Id.Value + "," + activePlayer.ScoredPoints + "," +
+                          ActivePlayer.StatusToString(activePlayer.Status));
+            }
+            System.IO.File.WriteAllLines(@path, lines);
         }
     }
 }
