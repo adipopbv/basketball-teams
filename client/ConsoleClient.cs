@@ -56,9 +56,14 @@ namespace basketball_teams.client
             Console.Write("\nTeam id: ");
             string teamId = Console.ReadLine();
             List<Player> players = Service.GetPlayersOfTeam(new Id(int.Parse(teamId!)));
-            
-            Console.Write("Players of team " + players[0].Team.Name + ": \n");
-            players.ForEach(player => Console.WriteLine(player.Id.Value + " | " + player.Name));
+
+            if (players.Count > 0)
+            {
+                Console.Write("Players of team " + players[0].Team.Name + ": \n");
+                players.ForEach(player => Console.WriteLine(player.Id.Value + " | " + player.Name));
+            }
+            else
+                Console.WriteLine("No player in that team!");
         }
 
         private void GetActivePlayersOfTeamFromGame()
@@ -68,9 +73,19 @@ namespace basketball_teams.client
             Console.Write("\nGame id: ");
             string gameId = Console.ReadLine();
             List<ActivePlayer> activePlayers = Service.GetActivePlayersOfTeamFromGame(new Id(int.Parse(teamId!)), new Id(int.Parse(gameId!)));
-            
-            Console.Write("Active players of team " + activePlayers[0].Player.Team.Name + " taking part in the " + activePlayers[0].Game.Id.Value + " game: \n");
-            activePlayers.ForEach(activePlayer => Console.WriteLine(activePlayer.Player.Id.Value + " | " + activePlayer.Player.Name + " | " + activePlayer.ScoredPoints + " | " + ActivePlayer.StatusToString(activePlayer.Status)));
+
+            if (activePlayers.Count > 0)
+            {
+                Console.Write("Active players of team " + activePlayers[0].Player.Team.Name + " taking part in the " +
+                              activePlayers[0].Game.Id.Value + " game: \n");
+                activePlayers.ForEach(activePlayer => Console.WriteLine(activePlayer.Player.Id.Value + " | " +
+                                                                        activePlayer.Player.Name + " | " +
+                                                                        activePlayer.ScoredPoints + " | " +
+                                                                        ActivePlayer.StatusToString(activePlayer
+                                                                            .Status)));
+            }
+            else
+                Console.WriteLine("No active player from that team at that game!");
         }
 
         private void GetGamesFromTimePeriod()
